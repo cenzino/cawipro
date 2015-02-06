@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Django settings for cawipro project.
 
@@ -73,13 +74,14 @@ WSGI_APPLICATION = 'cawipro.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
 
@@ -126,7 +128,8 @@ if LIVEHOST:
     """
     Configurazione di Produzione
     """
-    import secrets
+    import cawipro.secrets as secrets
+
 
     DEBUG = False
     TEMPLATE_DEBUG = False
