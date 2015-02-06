@@ -7,7 +7,8 @@ from django.shortcuts import render
 from cawi import questionario as q
 
 def index(request):
-    return render(request, 'index.html')
+    qu = { 'q': q.questionario }
+    return render(request, 'index.html', qu)
 
 def questionario(request):
     qu = { 'q': q.questionario }
