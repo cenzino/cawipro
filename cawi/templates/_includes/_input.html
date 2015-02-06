@@ -1,0 +1,31 @@
+<div class="form-group">
+    {% if e.tipo == 'radio' %}
+        <div>
+            <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
+        </div>
+
+        {% for scelta in e.scelte %}
+        <label class="radio-inline">
+            <input
+                    id="{{ e.numero }}"
+                    type="radio"
+                    name="D{{ e.numero }}"
+                    value="{{ e.numero }}"
+                    {% if e.required %}required{% endif %}
+                    > {{ scelta }}
+        </label>
+        {% endfor %}
+
+    {% else %}
+    <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
+    <input
+            type="{{ e.tipo }}"
+            name="D{{ e.numero }}"
+            class="form-control {{ class }}"
+            {% if e.required %}required{% endif %}
+            {% if e.readonly %}readonly tabindex="-1"{% endif %}
+            {% if e.tipo == 'number' %}min=0 value=0{% endif %}
+    >
+    {% endif %}
+    <p class="help-block small">{{ help }}</p>
+</div>

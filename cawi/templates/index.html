@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div>
+        <div class="row text-center">
+            <div class="col-xs-6"><img src="{% static 'img/image1.gif' %}" alt="" height="100px" /></div>
+            <div class="col-xs-6"><img src="{% static 'img/image2.jpg' %}" alt="" height="100px" /></div>
+        </div>
+    </div>
+
+    <div class="jumbotron" style="height: 100%; background-color: transparent;">
+        <div class="container">
+            <h1 class="text-center"></h1>
+            <br>
+            <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'questionario' %}" role="button">Compila il questionario</a></p>
+        </div>
+    </div>
+    <div class="text-center">
+        <p><i>in collaborazione con</i></p>
+        <img src="{% static 'img/image3.jpg' %}" alt="" height="50px"/>
+    </div>
+{% endblock %}

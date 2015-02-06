@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+{#    {% import 'forms.html' as forms %}#}
+
+        <form action="{% url 'bye' %}" id="questionarioForm" role="form" class="" method="POST">
+            {% csrf_token %}
+            {% for elemento in q.elementi %}
+                {% if elemento.classe == 'intestazione' %}
+                    <h3 class="page-header text-center">{{ elemento.testo }}</h3>
+                {% elif elemento.classe == 'input' %}
+                    {% include "_includes/_input.html" with e=elemento %}
+{#                    {{ forms.input(codice=elemento.numero, label=elemento.testo, nome=elemento.numero, tipo=elemento.tipo, scelte=elemento.scelte, required=elemento.required) }}#}
+                {% elif elemento.classe == 'textarea' %}
+                    {% include "_includes/_textarea.html" with e=elemento %}
+{#                    {{ forms.textarea(codice=elemento.numero, label=elemento.testo) }}#}
+                {% elif elemento.classe == 'griglia' %}
+                    {% include "_includes/_griglia.html" with griglia=elemento.griglia %}
+{#                    {{ forms.griglia(elemento.griglia) }}#}
+                {% endif %}
+            {% endfor %}
+            <!-- Show the messages in #errors -->
+            <div class="form-group">
+                <div class="{# col-xs-9 col-xs-offset-3  #}">
+                    <ul id="errors">
+                    </ul>
+                </div>
+            </div>
+            <input type="submit" value="Invia" class="btn btn-primary">
+        </form>
+    {% endblock %}
+
+{% block scripts %}
+    <script>
+
+        var Q = {
+            init: function() {
+                Q.sommaColonnaTotale = 0;
+                Q.counter = $('.counter');
+
+                $('input,textarea').attr('autocomplete', 'off');
+                Q.totalCell = $('[name="D1.10"]');
+
+                $( ".grid-cell")
+                        .on('focus', function(){
+                            var jqThis = $(this);
+                            jqThis.data('prev-value', jqThis.val());
+                        }).change( function(){
+                            Q.update($(this));
+                        });
+
+                $('[name="D1.11"]').change( function(){ Q.aggiornaTotaleMacchine(); });
+                $('[name="D1.12"]').change( function(){ Q.aggiornaTotaleMacchine(); });
+            },
+
+            update: function(cell) {
+                var preValue = cell.data("prev-value");
+                var newValue = parseInt(cell.val());
+                //console.log(typeof parseInt(newValue));
+
+                if (typeof newValue === "number" && newValue >= 0) {
+                    var sumValue = newValue - preValue;
+                    cell.data('prev-value', newValue);
+
+                    var targetCell = $('#'+cell.data("grid-sumto"));
+                    targetCell.val(parseInt(targetCell.val()) + (sumValue));
+
+                    if(cell.data("grid-sumto").substr(-2)=='21') {
+                        console.log(sumValue);
+                        Q.sommaColonnaTotale += sumValue;
+                        Q.counter.text(Q.sommaColonnaTotale);
+                    }
+
+                    Q.validaField(targetCell);
+                    Q.validaField(targetCell.attr("data-fv-identical-field"));
+                    Q.validaField(Q.totalCell);
+                } else {
+                    cell.val(preValue);
+                }
+
+            },
+
+            aggiornaTotaleMacchine: function () {
+                Q.totalCell.val(parseInt($('[name="D1.11"]').val()) + parseInt($('[name="D1.12"]').val()));
+                Q.validaField(Q.totalCell);
+            },
+
+            validaField: function(field) {
+                $('#questionarioForm').data('formValidation').updateStatus(field, 'NOT_VALIDATED').validateField(field);
+            }
+
+
+        };
+
+        (function($) {
+            FormValidation.Validator.totaleMacchine = {
+                /**
+                 * @param {FormValidation.Base} validator The validator plugin instance
+                 * @param {jQuery} $field The jQuery object represents the field element
+                 * @param {Object} options The validator options
+                 * @returns {Boolean}
+                 */
+                validate: function(validator, $field, options) {
+                    console.log('#', Q.sommaColonnaTotale);
+                    var value = parseInt($field.val());
+
+                    if (value == Q.sommaColonnaTotale) {
+                        //Q.counter.attr('class', "text-success");
+                        Q.counter.removeClass('text-danger');
+                        Q.counter.addClass('text-success');
+                        $('.C2-1').removeClass('bg-danger');
+                        return true;
+                    }
+                    {#                    Q.counter.attr('class', 'text-danger');#}
+                    Q.counter.removeClass('text-success');
+                    Q.counter.addClass('text-danger');
+                    $('.C2-1').addClass('bg-danger');
+                    return false;
+                }
+            };
+        }(window.jQuery));
+
+        $(document).ready(function() {
+            $('.table-fixed-header').fixedHeader();
+
+
+            $('[name="D1.9"]').autocomplete({
+                lookup: ateco,
+                onSelect: function (suggestion) {
+{#                    alert('You selected: ' + suggestion.value + ', ' + suggestion.data);#}
+                }
+            });
+
+            Q.init();
+
+            $('#questionarioForm').formValidation({
+                framework: 'bootstrap',
+                excluded: ['.grid-cell'],
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                locale: 'it_IT',
+                {#                err: {#}
+                {#                    container: 'popover'#}
+                {#                },#}
+                //live: 'disabled',
+                fields: {
+                    'D1.10': {
+                        validators: {
+                            totaleMacchine: {
+                                message: 'Il valore del campo deve corrispondere alla somma dei valori della colonna <code>2.1</code> nella tabella <b>Dati dettagliati per tipo di macchina</b> di seguito'
+                            }
+                        }
+                    }
+                }
+            })
+            .on('success.form.fv', function(e) {
+                // Reset the message element when the form is valid
+                $('#errors').html('');
+            })
+
+            .on('err.field.fv', function(e, data) {
+                // data.fv      --> The FormValidation instance
+                // data.field   --> The field name
+                // data.element --> The field element
+
+                // Get the messages of field
+                var messages = data.fv.getMessages(data.element);
+
+                // Remove the field messages if they're already available
+                $('#errors').find('li[data-field="' + data.field + '"]').remove();
+
+                // Loop over the messages
+                for (var i in messages) {
+                    // Create new 'li' element to show the message
+                    $('<li/>')
+                            .attr('data-field', data.field)
+                            .wrapInner(
+                            $('<a/>')
+                                    .attr('href', 'javascript: void(0);')
+                                    .html('<code>'+data.field+'</code> '+messages[i])
+                                    .on('click', function(e) {
+                                        // Focus on the invalid field
+                                        data.element.focus();
+                                    })
+                    )
+                            .appendTo('#errors');
+                }
+
+                // Hide the default message
+                // $field.data('fv.messages') returns the default element containing the messages
+                /*
+                 data.element
+                 .data('fv.messages')
+                 .find('.help-block[data-fv-for="' + data.field + '"]')
+                 .hide();
+                 */
+            })
+
+            .on('success.field.fv', function(e, data) {
+                // Remove the field messages
+                $('#errors').find('li[data-field="' + data.field + '"]').remove();
+            });
+        });
+    </script>
+{% endblock %}

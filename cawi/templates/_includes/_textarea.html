@@ -1,0 +1,6 @@
+{% if e %}
+<div class="form-group">
+    <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
+    <textarea name="D{{ e.numero }}" class="form-control" {% if e.required %}required{% endif %} rows="7"></textarea>
+</div>
+{% endif %}

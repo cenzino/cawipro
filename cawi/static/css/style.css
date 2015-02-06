@@ -1,0 +1,153 @@
+body { margin-top: 40px; font-size:13px; }
+
+table .header-fixed {
+    position: fixed;
+    top: 0px;
+    z-index: 1020; /* 10 less than .navbar-fixed to prevent any overlap */
+    /*
+    border-bottom: 1px solid #d5d5d5;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    -webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    -moz-box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    box-shadow: inset 0 1px 0 #fff, 0 1px 5px rgba(0,0,0,.1);
+    */
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false); /* IE6-9 */
+}
+
+
+.form-control[type=number] {
+    text-align: right;
+    max-width: 140px;
+}
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    font-weight: bold;
+}
+
+.has-feedback .form-control {
+    padding-right: 10.5px;
+}
+
+.table .form-group {
+    margin: 0;
+}
+.table .form-control {
+
+padding: 0;
+}
+.table .form-control[disabled], .table .form-control[readonly], .table fieldset[disabled] .form-control {
+    text-align: center;
+    padding-right: 10.5px;
+
+}
+
+
+/* Simple message styles customization */
+#errors {
+    border-left: 5px solid #a94442;
+    padding-left: 15px;
+}
+#errors li {
+    list-style-type: none;
+}
+#errors li:before {
+    content: '\b7\a0';
+}
+
+code { font-weight: normal; }
+
+.table>thead>tr>th { vertical-align: top; }
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] {
+    border: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+}
+
+.form-control[disabled]:focus, .form-control[readonly]:focus, fieldset[disabled]:focus  {
+    border-color: none;
+    outline: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+input[type=number][disabled]::-webkit-inner-spin-button, input[type=number][disabled]::-webkit-outer-spin-button,
+input[type=number][readonly]::-webkit-inner-spin-button, input[type=number][readonly]::-webkit-outer-spin-button, {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number][disabled], input[type=number][readonly], fieldset[disabled]:focus {
+    -moz-appearance: textfield;
+    cursor: default;
+}
+
+.autocomplete-suggestions {
+    max-height: 100px;
+    overflow-y: auto;
+    overflow-x: hidden
+}
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 6px 15px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+.twitter-typeahead{
+    width:100%;
+}
+
+.twitter-typeahead .tt-query,
+.twitter-typeahead .tt-hint {
+    margin-bottom: 0;
+}
+.tt-dropdown-menu {
+    min-width: 160px;
+    margin-top: 2px;
+    padding: 5px 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.2);
+    *border-right-width: 2px;
+    *border-bottom-width: 2px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+    width:100%;
+}
+
+.tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+}
+
+.tt-suggestion.tt-is-under-cursor {
+    color: #fff;
+    background-color: #0081c2;
+    background-image: -moz-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3));
+    background-image: -webkit-linear-gradient(top, #0088cc, #0077b3);
+    background-image: -o-linear-gradient(top, #0088cc, #0077b3);
+    background-image: linear-gradient(to bottom, #0088cc, #0077b3);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+}
+
+.tt-suggestion.tt-is-under-cursor a {
+    color: #fff;
+}
+
+.tt-suggestion p {
+    margin: 0;
+}

@@ -1,0 +1,68 @@
+{% with nrcolonne=griglia.colonne|length %}
+<table id="mytable" class="table table-condensed table-hover table-bordered table-fixed-header">
+    <thead class="header">
+        {% if griglia.gruppi_colonne %}
+            <tr>
+                <th>&nbsp;</th>
+                {% for gruppo in griglia.gruppi_colonne %}
+                    <th colspan="{{ gruppo.numero_colonne }}">{{ gruppo.testo }}</th>
+                {% endfor %}
+            </tr>
+        {% endif %}
+        <tr>
+            <th>&nbsp;</th>
+            {% for colonna in griglia.colonne %}
+                <th width="6%" id="C{{ colonna.codice|slugify }}" class="C{{ colonna.codice|slugify }} text-center">
+                    <p><code>{{ colonna.codice }}</code></p> {{ colonna.testo }}
+                    {% if colonna.codice == '2.1' %}<div id="counter" class="counter text-success">0</div>{% endif %}
+                </th>
+            {% endfor %}
+        </tr>
+    </thead>
+
+    {% for riga in griglia.righe %}
+    {% if riga.classe == 'intestazione' %}
+    <tr>
+        <td colspan="{{ nrcolonne|add:1 }}" class="testo{{ riga.livello }}"><b>{{ riga.testo }}</b>
+        </td>
+    </tr>
+    {% else %}
+    <tr>
+        <td><code>{{ riga.codice }}</code> {{ riga.testo }}</td>
+        {% for colonna in griglia.colonne %}
+        <td>
+
+            <div class="form-group">
+            {#                    <input id="D{{ riga.codice|replace('.','-') }}-{{ colonna.codice|replace('.','-') }}" type="number" name="D{{ riga.codice+'-'+colonna.codice }}" class="form-control {% if not colonna.readonly %}grid-cell{% endif %} input-sm" min=0 value=0 data-prev-value=0 {% if colonna.equal_to %}data-fv-identical="true" data-fv-identical-field="D{{ riga.codice+'-'+colonna.equal_to }}" data-fv-identical-message="I <b>totali</b> devo essere uguali"{% endif %} {# data-grid-row="{{ riga.codice }}"  data-grid-col="{{ colonna.codice }}" #}{#  {% if colonna.sum_to %}data-grid-sumto="D{{ riga.codice|replace('.','-') }}-{{ colonna.sum_to|replace('.','-') }}" {% endif %}{% if colonna.required %}required{% endif %}{% if colonna.readonly %}readonly{% else %}data-fv-icon="false"{% endif %}>#}
+            <input
+                    id="D{{ riga.codice|slugify }}-{{ colonna.codice|slugify }}"
+                    type="number"
+                    name="D{{ riga.codice }}-{{colonna.codice }}"
+                    class="form-control {% if not colonna.readonly %}grid-cell{% endif %} input-sm"
+                    min=0
+                    value=0
+                    data-prev-value=0
+                    data-fv-notempty="false"
+                    data-fv-integer="false"
+                    data-fv-greaterthan="false"
+                    data-fv-err-container="popover"
+                    {% if colonna.equal_to %}
+                    data-fv-identical="true"
+                    data-fv-identical-field="D{{ riga.codice}}-{{ colonna.equal_to }}"
+                    data-fv-identical-message="I due <b>valori</b> devo essere uguali"
+                    {% endif %}
+                    {# data-grid-row="{{ riga.codice }}"  data-grid-col="{{ colonna.codice }}" #}
+                    {% if colonna.sum_to %}
+                    data-grid-sumto="D{{ riga.codice|slugify }}-{{ colonna.sum_to|slugify }}"
+                    {% endif %}
+                    {#                            {% if colonna.required %}required{% endif %}#}
+                    {% if colonna.readonly %}readonly tabindex="-1"{% else %}data-fv-icon="false"{% endif %}>
+            </div>
+
+        </td>
+        {% endfor %}
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endwith %}
