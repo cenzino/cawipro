@@ -13,7 +13,7 @@
         <div class="container">
             <h1 class="text-center">{{ q.titolo }}</h1>
             <br>
-            <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'questionario' %}" role="button">Compila il questionario</a></p>
+            <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'questionario'%}{% if idc %}?idc={{ idc }}{% endif %}" role="button">Compila il questionario</a></p>
         </div>
     </div>
     <div class="text-center">

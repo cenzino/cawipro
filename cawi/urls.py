@@ -6,6 +6,7 @@ from cawi import views
 urlpatterns = patterns('',
                        url(r'^$', views.index, name='index'),
                        url(r'^questionario$', views.questionario, name='questionario'),
+                       url(r'^salva_questionario$', views.salva_questionario, name='salva_questionario'),
                        url(r'^bye$', views.bye, name='bye'),
                        )
 

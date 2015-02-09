@@ -15,7 +15,7 @@
             <br>
             <div class="alert alert-warning" role="alert">
                 <p>Se l'azienda possiede più di uno <b>stabilimento/unità locale</b>, La preghiamo di compilare un questionario per ogni stabilitmento/unità locale. </p>
-                <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'questionario' %}" role="button">Compila nuovo questionario</a></p>
+                <p class="text-center"><a class="btn btn-primary btn-lg" href="{% url 'questionario' %}{% if idc %}?idc={{ idc }}{% endif %}" role="button">Compila nuovo questionario</a></p>
             </div>
 
         </div>

@@ -4,8 +4,20 @@
 {% block content %}
 {#    {% import 'forms.html' as forms %}#}
 
-        <form action="{% url 'bye' %}" id="questionarioForm" role="form" class="" method="POST">
+        <form action="{% url 'salva_questionario' %}" id="questionarioForm" role="form" class="" method="POST">
             {% csrf_token %}
+            {% if idc %}
+{#                <input type="hidden" name="idc" value="{{ idc }}">#}
+                <div class="form-group">
+                    <label for="idc" class="control-label hide">Identificativo contatto</label>
+                    <input type="hidden" name="idc" value="{{ idc }}" required min="0" class="form-control">
+                </div>
+            {% else %}
+                <div class="form-group">
+                    <label for="idc" class="control-label">Identificativo contatto</label>
+                    <input type="number" name="idc" value="" required min="0" class="form-control">
+                </div>
+            {% endif %}
             {% for elemento in q.elementi %}
                 {% if elemento.classe == 'intestazione' %}
                     <h3 class="page-header text-center">{{ elemento.testo }}</h3>
@@ -148,7 +160,7 @@
                 {#                err: {#}
                 {#                    container: 'popover'#}
                 {#                },#}
-                //live: 'disabled',
+                live: 'disabled',
                 fields: {
                     'D1.10': {
                         validators: {

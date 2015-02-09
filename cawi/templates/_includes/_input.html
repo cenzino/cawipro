@@ -10,7 +10,7 @@
                     id="{{ e.numero }}"
                     type="radio"
                     name="D{{ e.numero }}"
-                    value="{{ e.numero }}"
+                    value="{{ forloop.counter }}"
                     {% if e.required %}required{% endif %}
                     > {{ scelta }}
         </label>
