@@ -10,7 +10,7 @@
                     id="{{ e.numero }}"
                     type="radio"
                     name="D{{ e.numero }}"
-                    value="{{ forloop.counter }}"
+                    value="{{ scelta }}"
                     {% if e.required %}required{% endif %}
                     > {{ scelta }}
         </label>
@@ -26,6 +26,9 @@
             {% if e.readonly %}readonly tabindex="-1"{% endif %}
             {% if e.tipo == 'number' %}min=0 value=0{% endif %}
     >
+    {% if  e.help_text %}
+        <p class="help-block">{{ e.help_text }}</p>
+    {% endif %}
     {% endif %}
     <p class="help-block small">{{ help }}</p>
 </div>

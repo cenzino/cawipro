@@ -3,7 +3,14 @@
 
 {% block content %}
 {#    {% import 'forms.html' as forms %}#}
+    <div id="errors-alert" class="form-group hide">
+        <div class="alert alert-danger" role="alert">
+            <h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione! </h3>
+            <p>Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
+            <br/>
 
+        </div>
+    </div>
         <form action="{% url 'salva_questionario' %}" id="questionarioForm" role="form" class="" method="POST">
             {% csrf_token %}
             {% if idc %}
@@ -33,14 +40,35 @@
                 {% endif %}
             {% endfor %}
             <!-- Show the messages in #errors -->
-            <div class="form-group">
-                <div class="{# col-xs-9 col-xs-offset-3  #}">
+            <div id="errors-list" class="form-group hide">
+                <div class="{# col-xs-9 col-xs-offset-3  #}alert alert-danger" role="alert">
+                    <h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione! </h3>
+                    <p>Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> riportati di seguito. </p>
+                    <br/>
                     <ul id="errors">
                     </ul>
                 </div>
             </div>
             <input type="submit" value="Invia" class="btn btn-primary">
         </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content text-danger">
+                <div class="modal-header text-danger">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h3 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione!</h3>
+                </div>
+                <div class="modal-body bg-danger text-danger">
+                    Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Torna al questionario</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endblock %}
 
 {% block scripts %}
@@ -53,6 +81,8 @@
 
                 $('input,textarea').attr('autocomplete', 'off');
                 Q.totalCell = $('[name="D1.10"]');
+
+
 
                 $( ".grid-cell")
                         .on('focus', function(){
@@ -135,14 +165,23 @@
 
         $(document).ready(function() {
             $('.table-fixed-header').fixedHeader();
+            $('.help-text').tooltip();
+{#            $('.help-text-p').popover();#}
+            //$('[name="D1.9"]').width('300px');
 
 
             $('[name="D1.9"]').autocomplete({
                 lookup: ateco,
 {#                lookupLimit: 20#}
-                minChars: 2,
+                minChars: 1,
                 onSelect: function (suggestion) {
+                   var that = this;
 {#                    alert('You selected: ' + suggestion.value + ', ' + suggestion.data);#}
+
+                   //$(this).value(suggestion);
+                    //this.val('ciao');
+                   $('[name="D1.9"]').val(suggestion.data);
+
                 }
             });
 
@@ -173,6 +212,8 @@
             })
             .on('success.form.fv', function(e) {
                 // Reset the message element when the form is valid
+                $('#errors-list').addClass('hide');
+                $('#errors-alert').addClass('hide');
                 $('#errors').html('');
             })
 
@@ -203,6 +244,9 @@
                     )
                             .appendTo('#errors');
                 }
+{#                $('#myModal').modal('show');#}
+                $('#errors-alert').removeClass('hide');
+                $('#errors-list').removeClass('hide');
 
                 // Hide the default message
                 // $field.data('fv.messages') returns the default element containing the messages

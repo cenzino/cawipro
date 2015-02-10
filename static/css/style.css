@@ -151,3 +151,56 @@ input[type=number][disabled], input[type=number][readonly], fieldset[disabled]:f
 .tt-suggestion p {
     margin: 0;
 }
+
+.table .testo { padding-left: 2em; vertical-align: middle; }
+
+.table .testo1 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.3em;
+    text-transform: uppercase;
+    padding: 0.75em 0;
+}
+
+.table .testo2 {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    padding-top: 0.65em;
+    padding-bottom: 0.65em;
+}
+
+.table .testo3 {
+    font-weight: bold;
+    text-decoration: underline;
+    padding-top: 0.65em;
+    padding-bottom: 0.65em;
+    padding-left: 2em;
+}
+
+.table .testo4 {
+    font-weight: bold;
+    font-style: italic;
+    padding-left: 2em;
+}
+
+.table .label4 {
+    font-weight: bold;
+    font-style: italic;
+    /*padding-left: 4px;*/
+}
+
+.table .label2 {
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-left: 5px;
+    font-size: 1.1em;
+}
+
+.input-sm {
+    font-size: 1em;
+}
+
+.table>td { vertical-align: middle; }
+
+code { font-style: normal; }

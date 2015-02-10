@@ -5,7 +5,7 @@
             <tr>
                 <th>&nbsp;</th>
                 {% for gruppo in griglia.gruppi_colonne %}
-                    <th colspan="{{ gruppo.numero_colonne }}">{{ gruppo.testo }}</th>
+                    <th colspan="{{ gruppo.numero_colonne }}" class="text-center">{{ gruppo.testo }}</th>
                 {% endfor %}
             </tr>
         {% endif %}
@@ -14,6 +14,13 @@
             {% for colonna in griglia.colonne %}
                 <th width="6%" id="C{{ colonna.codice|slugify }}" class="C{{ colonna.codice|slugify }} text-center">
                     <p><code>{{ colonna.codice }}</code></p> {{ colonna.testo }}
+                    {% if colonna.help_text %}
+                        <span class="glyphicon glyphicon-info-sign help-text text-info" aria-hidden="true" data-toggle="tooltip" data-html="true" data-placement="top" title="{{ colonna.help_text }}"></span>
+{#                        <button type="button" class="btn btn-default help-text" data-toggle="tooltip" data-html="true" data-placement="top" title="{{ colonna.help_text }}">?</button>#}
+{#                        <button type="button" class="btn btn-default help-text-p" trigger="hover" data-container="body" data-toggle="popover" title="Automazione Integrazione" data-placement="top" data-content="{{ colonna.help_text }}.">#}
+{#                            ?#}
+{#                        </button>#}
+                    {% endif %}
                     {% if colonna.codice == '2.1' %}<div id="counter" class="counter text-success">0</div>{% endif %}
                 </th>
             {% endfor %}
@@ -23,12 +30,11 @@
     {% for riga in griglia.righe %}
     {% if riga.classe == 'intestazione' %}
     <tr>
-        <td colspan="{{ nrcolonne|add:1 }}" class="testo{{ riga.livello }}"><b>{{ riga.testo }}</b>
-        </td>
+        <td colspan="{{ nrcolonne|add:1 }}" class="testo{{ riga.livello }}">{{ riga.testo }}</td>
     </tr>
     {% else %}
     <tr>
-        <td><code>{{ riga.codice }}</code> {{ riga.testo }}</td>
+        <td class="testo {{ riga.stile }}"><code>{{ riga.codice }}</code> {{ riga.testo }}</td>
         {% for colonna in griglia.colonne %}
         <td>
 
