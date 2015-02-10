@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-__author__ = 'Vincenzo Petrungaro'
-
 questionario = {
     'titolo': 'Indagine sul parco macchine utensili e sistemi di produzione per la lavorazione dei metalli al 31 Dicembre 2014',
     'elementi': [
@@ -11,8 +9,8 @@ questionario = {
         { 'classe': 'input', 'testo': "Stabilimento/Unita locale", 'numero': '1.6', 'tipo': 'text', 'required': True},
         { 'classe': 'input', 'testo': "Indirizzo", 'numero': '1.7', 'tipo': 'text', 'required': True },
         { 'classe': 'input', 'testo': "Addetti dello stabilimento/Unita locale al 31/12/2014", 'numero': '1.8', 'tipo': 'number', 'required': True},
-        { 'classe': 'input', 'testo': "Codice ATECO 2007", 'numero': '1.9', 'tipo': 'text'},
-        { 'classe': 'input', 'testo': "Attivita principale dello stabilimento", 'numero': '1.9b', 'tipo': 'text', 'required': True },
+        { 'classe': 'input', 'testo': "Attivita principale dello stabilimento", 'numero': '1.9', 'tipo': 'text', 'required': True },
+        { 'classe': 'input', 'testo': "Codice ATECO 2007", 'numero': '1.9bis', 'tipo': 'text'},
         { 'classe': 'intestazione', 'testo': "Macchine utensili installate presso lo stabilimento/unita' locale al 31/12/2014" },
         { 'classe': 'input', 'testo': "Numero totale di macchine utensili", 'numero': '1.10', 'tipo': 'number',  'readonly': True, 'help_text': 'Comprendono macchine utensili, robot, altri sistemi di produzione indicati nella sezione dei dati dettagliati.'},
         { 'classe': 'input', 'testo': "macchine a controllo numerico", 'numero': '1.11', 'tipo': 'number', 'required': True },
@@ -63,13 +61,13 @@ questionario = {
                 {'stile': 'label4', 'testo': 'Per assali, ruote montate', 'codice': '2.16', 'classe': 'domanda'},
                 {'livello': '2', 'testo': 'TRAPANI E FORATRICI', 'classe': 'intestazione'},
                 {'livello': '4', 'testo': 'Trapani', 'classe': 'intestazione'},
-                {'stile': '', 'testo': 'da banco', 'codice': '2.16b', 'classe': 'domanda'},
+                {'stile': '', 'testo': 'da banco', 'codice': '2.16bis', 'classe': 'domanda'},
                 {'stile': '', 'testo': 'a colonna e a torretta', 'codice': '2.17', 'classe': 'domanda'},
                 {'stile': '', 'testo': 'radiali', 'codice': '2.18', 'classe': 'domanda'},
                 {'livello': '4', 'testo': 'Foratrici', 'classe': 'intestazione'},
                 {'stile': '', 'testo': 'a mandrini multipli, per piastre tubiere', 'codice': '2.19', 'classe': 'domanda'},
                 {'stile': '', 'testo': 'per fori profondi', 'codice': '2.20', 'classe': 'domanda'},
-                {'stile': '', 'testo': 'per piastre e profilati', 'codice': '2.20b', 'classe': 'domanda'},
+                {'stile': '', 'testo': 'per piastre e profilati', 'codice': '2.20bis', 'classe': 'domanda'},
                 {'livello': '2', 'testo': 'FRESATRICI E ALESATRICI', 'classe': 'intestazione'},
                 {'livello': '3', 'testo': 'Convenzionali', 'classe': 'intestazione'},
                 {'stile': 'label4', 'testo': 'Fresatrici', 'codice': '2.21', 'classe': 'domanda'},
@@ -164,7 +162,7 @@ questionario = {
                 {'stile': '', 'testo': 'con larghezza lavorabile da 2,51 a 4 metri', 'codice': '3.6', 'classe': 'domanda'},
                 {'stile': '', 'testo': 'con larghezza lavorabile oltre 4 metri', 'codice': '3.7', 'classe': 'domanda'},
                 {'stile': 'label4', 'testo': 'Pannellatrici', 'codice': '3.8', 'classe': 'domanda'},
-                {'stile': 'label4', 'testo': 'Spianatrici e raddrizzatrici', 'codice': '3.8b', 'classe': 'domanda'},
+                {'stile': 'label4', 'testo': 'Spianatrici e raddrizzatrici', 'codice': '3.8bis', 'classe': 'domanda'},
                 {'livello': '4', 'testo': 'Linee e macchine per profilatura', 'classe': 'intestazione'},
                 {'stile': '', 'testo': 'macchine per profilare', 'codice': '3.9', 'classe': 'domanda'},
                 {'stile': '', 'testo': 'linee di profilatura', 'codice': '3.10', 'classe': 'domanda'},
@@ -237,7 +235,7 @@ questionario = {
                 {'stile': 'label2', 'testo': 'TAGLIO WATERJET', 'codice': '4.9', 'classe': 'domanda'},
                 {'stile': 'label2', 'testo': 'ALTRE MACCHINE OPERANTI CON T.N.C', 'codice': '4.10', 'classe': 'domanda'},
                 {'livello': '1', 'testo': 'ROBOT E BRACCI MECCANICI', 'classe': 'intestazione'},
-                {'stile': 'label2', 'testo': 'BRACCI MECCANICI', 'codice': '5.10', 'classe': 'domanda'},
+                {'stile': 'label2', 'testo': 'BRACCI MECCANICI', 'codice': '5.1', 'classe': 'domanda'},
                 {'stile': 'label2', 'testo': 'ROBOT A SEQUENZA', 'codice': '5.2', 'classe': 'domanda'},
                 {'livello': '2', 'testo': 'ROBOT A TRAIETTORIA CONTROLLATA', 'classe': 'intestazione'},
                 {'stile': '', 'testo': 'articolati', 'codice': '5.3', 'classe': 'domanda'},
@@ -265,3 +263,5 @@ questionario = {
         { 'classe': 'textarea', 'testo': "Note e commenti", 'numero': '6.1' }
     ]
 }
+__author__ = 'Vincenzo Petrungaro'
+
