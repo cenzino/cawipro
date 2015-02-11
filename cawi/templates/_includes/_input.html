@@ -1,19 +1,13 @@
 <div class="form-group">
     {% if e.tipo == 'radio' %}
-        <div>
-            <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
-        </div>
+        <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
 
         {% for scelta in e.scelte %}
-        <label class="radio-inline">
-            <input
-                    id="{{ e.numero }}"
-                    type="radio"
-                    name="D{{ e.numero }}"
-                    value="{{ scelta }}"
-                    {% if e.required %}required{% endif %}
-                    > {{ scelta }}
-        </label>
+            <div class="radio">
+                <label class="radio-inline">
+                    <input type="radio" name="D{{ e.numero }}" value="{{ scelta }}"> {{ scelta }}
+                </label>
+            </div>
         {% endfor %}
 
     {% else %}

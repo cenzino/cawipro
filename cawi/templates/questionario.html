@@ -199,12 +199,18 @@
                 {#                err: {#}
                 {#                    container: 'popover'#}
                 {#                },#}
-                live: 'disabled',
+{#                live: 'disabled',#}
                 fields: {
                     'D1.10': {
                         validators: {
                             totaleMacchine: {
                                 message: 'Il valore del campo deve corrispondere alla somma dei valori della colonna <code>2.1</code> nella tabella <b>Dati dettagliati per tipo di macchina</b> di seguito'
+                            }
+                        }
+                    },
+                    'D1.3': {
+                        validators: {
+                            notEmpty: {
                             }
                         }
                     }
@@ -260,6 +266,8 @@
 
             .on('success.field.fv', function(e, data) {
                 // Remove the field messages
+                $('#errors-list').addClass('hide');
+                $('#errors-alert').addClass('hide');
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
             });
         });
