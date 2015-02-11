@@ -10,6 +10,20 @@ from cawi.models import Questionario
 
 import collections
 
+def convert_key(k):
+    if not k.startswith('D'):
+        return k
+
+    _k = k.split('-')
+    _k1 = _k[0].split('.')
+    try:
+        if len(_k1[1]) == 1 or (len(_k1[1]) == 2 and _k1[1].endswith('b')):
+            _k1[1] = '0'+_k1[1]
+            _k[0] = '.'.join(_k1)
+    except:
+        pass
+    return '__'.join(_k).replace('.', '_')
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -44,10 +58,14 @@ def salva_questionario(request):
         #request.POST.pop('csrfmiddlewaretoken')
         #d = dict(request.POST .iterlists())
         risposte = collections.OrderedDict(sorted(request.POST.dict().items()))
+        r = ((convert_key(k), v) for k, v in risposte.items())
+
+        risposte1 = collections.OrderedDict(sorted(r))
+
         q = Questionario(
             id_contatto=idc,
             ip_compilatore=get_client_ip(request),
-            risposte=risposte
+            risposte=risposte1
         )
         q.save()
     #return render(request, 'bye.html')

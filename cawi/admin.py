@@ -43,7 +43,7 @@ def export_csv(modeladmin, request, queryset):
         row = [
             smart_str(obj.pk),
             smart_str(obj.id_contatto),
-            smart_str(obj.data_compilazione),
+            smart_str(obj.data_compilazione.strftime("%d/%m/%Y %H:%M:%S")),
             smart_str(obj.ip_compilatore)
         ]
         for c in mydict.values():
