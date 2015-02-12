@@ -75,3 +75,58 @@ def salva_questionario(request):
     return HttpResponseRedirect('/bye')
     #return redirect('bye', {'idc': request.POST.get('idc')} )
     #return bye(request, idc = request.POST.get('idc'))
+
+import xlsxwriter
+import io
+
+from django.http.response import HttpResponse
+
+from xlsxwriter.workbook import Workbook
+from django.utils.encoding import smart_str
+import ast
+import re
+
+def export(request):
+    output = io.BytesIO()
+
+    workbook = xlsxwriter.Workbook(output, {'in_memory': True})
+    worksheet = workbook.add_worksheet()
+
+    headers = ['IDQ','IDContatto', 'DataCompilazione', 'IPCompilatore']
+
+    q = Questionario.objects.all()
+
+    if q:
+        values = re.search(r"OrderedDict\((.*)\)", q[0].risposte).group(1)
+        mydict = collections.OrderedDict(ast.literal_eval(values))
+
+        for c in mydict.keys():
+            headers.append(smart_str(c))
+
+    for i, text in enumerate(headers):
+        worksheet.write(0, i, text)
+
+    for j, obj in enumerate(q):
+        values = re.search(r"OrderedDict\((.*)\)", obj.risposte).group(1)
+        mydict = collections.OrderedDict(ast.literal_eval(values))
+
+        row = [
+            smart_str(obj.pk),
+            smart_str(obj.id_contatto),
+            smart_str(obj.data_compilazione.strftime("%d/%m/%Y %H:%M:%S")),
+            smart_str(obj.ip_compilatore)
+        ]
+        for c in mydict.values():
+            row.append(smart_str(c))
+
+        for k, text in enumerate(row):
+            worksheet.write(j+1, k, text)
+
+    workbook.close()
+
+    output.seek(0)
+
+    response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+    response['Content-Disposition'] = "attachment; filename=test.xlsx"
+
+    return response

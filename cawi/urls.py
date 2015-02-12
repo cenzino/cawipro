@@ -8,6 +8,7 @@ urlpatterns = patterns('',
                        url(r'^questionario$', views.questionario, name='questionario'),
                        url(r'^salva_questionario$', views.salva_questionario, name='salva_questionario'),
                        url(r'^bye$', views.bye, name='bye'),
+                       url(r'^export$', views.export, name='export'),
                        )
 
 
