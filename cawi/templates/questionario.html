@@ -61,7 +61,9 @@
                     <h3 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione!</h3>
                 </div>
                 <div class="modal-body bg-danger text-danger">
-                    Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>.
+                    Sono stati rilevati dei campi <b>non validi</b> nel questionario.
+
+                    <br>La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-dismiss="modal">Torna al questionario</button>
@@ -144,7 +146,6 @@
                  * @returns {Boolean}
                  */
                 validate: function(validator, $field, options) {
-                    console.log('#', Q.sommaColonnaTotale);
                     var value = parseInt($field.val());
 
                     if (value == Q.sommaColonnaTotale) {
@@ -219,10 +220,17 @@
             .on('success.form.fv', function(e) {
                 // Reset the message element when the form is valid
                 $('#errors-list').addClass('hide');
-                $('#errors-alert').addClass('hide');
+{#                $('#errors-alert').addClass('hide');#}
                 $('#errors').html('');
             })
+            .on('err.form.fv', function(e) {
+                // $(e.target) --> The form instance
+                // $(e.target).data('formValidation')
+                //             --> The FormValidation instance
 
+                // Do something ...
+                $('#myModal').modal('show');
+            })
             .on('err.field.fv', function(e, data) {
                 // data.fv      --> The FormValidation instance
                 // data.field   --> The field name
@@ -232,6 +240,9 @@
                 var messages = data.fv.getMessages(data.element);
 
                 // Remove the field messages if they're already available
+
+                $('#errors-list').removeClass('hide');
+{#                $('#errors-alert').removeClass('hide');#}
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
 
                 // Loop over the messages
@@ -248,10 +259,10 @@
                                         data.element.focus();
                                     })
                     )
-                            .appendTo('#errors');
+                    .appendTo('#errors');
                 }
-{#                $('#myModal').modal('show');#}
-                $('#errors-alert').removeClass('hide');
+
+{#                $('#errors-alert').removeClass('hide');#}
                 $('#errors-list').removeClass('hide');
 
                 // Hide the default message
@@ -266,9 +277,11 @@
 
             .on('success.field.fv', function(e, data) {
                 // Remove the field messages
-                $('#errors-list').addClass('hide');
-                $('#errors-alert').addClass('hide');
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
+                if($('#errors li').size()==0) {
+                    $('#errors-list').addClass('hide');
+{#                    $('#errors-alert').addClass('hide');#}
+                }
             });
         });
     </script>
