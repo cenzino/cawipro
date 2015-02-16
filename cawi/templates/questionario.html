@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block content %}
-{#    {% import 'forms.html' as forms %}#}
     <div id="errors-alert" class="form-group hide">
         <div class="alert alert-danger" role="alert">
             <h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione! </h3>
@@ -84,8 +83,6 @@
                 $('input,textarea').attr('autocomplete', 'off');
                 Q.totalCell = $('[name="D1.10"]');
 
-
-
                 $( ".grid-cell")
                         .on('focus', function(){
                             var jqThis = $(this);
@@ -101,7 +98,6 @@
             update: function(cell) {
                 var preValue = cell.data("prev-value");
                 var newValue = parseInt(cell.val());
-                //console.log(typeof parseInt(newValue));
 
                 if (typeof newValue === "number" && newValue >= 0) {
                     var sumValue = newValue - preValue;
@@ -111,7 +107,6 @@
                     targetCell.val(parseInt(targetCell.val()) + (sumValue));
 
                     if(cell.data("grid-sumto").substr(-2)=='21') {
-                        console.log(sumValue);
                         Q.sommaColonnaTotale += sumValue;
                         Q.counter.text(Q.sommaColonnaTotale);
                     }
@@ -165,52 +160,28 @@
         }(window.jQuery));
 
         $(document).ready(function() {
-            $('[name="D1.9c"]').parent().nextAll('.page-header').hide();
-            $('[name="D1.9c"]').parent().nextAll('.form-group').hide();
-            $('#mytable').hide();
-
-            //$('.table-fixed-header').fixedHeader();
+            $('.table-fixed-header').fixedHeader();
             $('.help-text').tooltip();
 
-
-
-{#            $('.help-text-p').popover();#}
-            //$('[name="D1.9"]').width('300px');
-
-            var lookup = 5;
-
+            //var lookup = 8;
 
             $('[name="D1.9b"]').autocomplete({
                 lookup: ateco,
-                lookupLimit: lookup,
+                lookupLimit: 8,
                 minChars: 1,
                 onSelect: function (suggestion) {
                    var that = this;
-{#                    alert('You selected: ' + suggestion.value + ', ' + suggestion.data);#}
 
-                   //$(this).value(suggestion);
-                    //this.val('ciao');
-                    console.log(suggestion);
                    $('[name="D1.9b"]').val(suggestion.data);
 
                    $('[name="D1.9c"]').val(suggestion.value.split('- ')[1]);
 
-                   if(suggestion.data != 'altro') {
-                       $('[name="D1.9c"]').parent().nextAll('.page-header').show();
-                       $('[name="D1.9c"]').parent().nextAll('.form-group').show();
-                       $('#mytable').show();
-                       $('.table-fixed-header').fixedHeader();
-                   } else {
-                       $('[name="D1.9c"]').parent().nextAll('.page-header').hide();
-                       $('[name="D1.9c"]').parent().nextAll('.form-group').hide();
-                       $('#mytable').hide();
-                   }
                 },
                 onSearchComplete: function (query, suggestions) {
-                    suggestions.push({ data: 'altro', value: "altro - Altro" });
+                    //suggestions.push({ data: 'altro', value: "altro - Altro" });
                 },
                 beforeRender: function (container) {
-                    container.append('<div class="autocomplete-suggestion" data-index="'+(lookup)+'">Altro</div>');
+                    //container.append('<div class="autocomplete-suggestion" data-index="'+(lookup)+'">Altro</div>');
                 }
             });
 
@@ -228,7 +199,7 @@
                 {#                err: {#}
                 {#                    container: 'popover'#}
                 {#                },#}
-{#                live: 'disabled',#}
+                live: 'disabled',
                 fields: {
                     'D1.10': {
                         validators: {
@@ -270,7 +241,7 @@
                 // Remove the field messages if they're already available
 
                 $('#errors-list').removeClass('hide');
-{#                $('#errors-alert').removeClass('hide');#}
+{# $('#errors-alert').removeClass('hide');#}
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
 
                 // Loop over the messages

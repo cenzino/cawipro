@@ -11,7 +11,7 @@ questionario = {
         { 'classe': 'input', 'testo': "Addetti dello stabilimento/Unita locale al 31/12/2014", 'numero': '1.8', 'tipo': 'number', 'required': True},
         { 'classe': 'input', 'testo': "Attivita principale dello stabilimento", 'numero': '1.9', 'tipo': 'text', 'required': True },
         { 'classe': 'input', 'testo': "Codice ATECO 2007", 'numero': '1.9b', 'tipo': 'text', 'required': True },
-        { 'classe': 'input', 'testo': "Descrizione Codice ATECO 2007", 'numero': '1.9c', 'tipo': 'text', 'hidden': True},
+        { 'classe': 'input', 'testo': "Descrizione Codice ATECO 2007", 'numero': '1.9c', 'tipo': 'text', 'hidden': False },
         { 'classe': 'intestazione', 'testo': "Macchine utensili installate presso lo stabilimento/unita' locale al 31/12/2014" },
         { 'classe': 'input', 'testo': "Numero totale di macchine utensili", 'numero': '1.10', 'tipo': 'number',  'readonly': True, 'help_text': 'Comprendono macchine utensili, robot, altri sistemi di produzione indicati nella sezione dei dati dettagliati.'},
         { 'classe': 'input', 'testo': "macchine a controllo numerico", 'numero': '1.11', 'tipo': 'number', 'required': True },
