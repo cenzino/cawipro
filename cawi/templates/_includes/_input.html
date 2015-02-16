@@ -1,4 +1,4 @@
-<div class="form-group">
+<div class="form-group {% if e.hidden %}hide{% endif %}">
     {% if e.tipo == 'radio' %}
         <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
 

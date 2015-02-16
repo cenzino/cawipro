@@ -165,15 +165,24 @@
         }(window.jQuery));
 
         $(document).ready(function() {
-            $('.table-fixed-header').fixedHeader();
+            $('[name="D1.9c"]').parent().nextAll('.page-header').hide();
+            $('[name="D1.9c"]').parent().nextAll('.form-group').hide();
+            $('#mytable').hide();
+
+            //$('.table-fixed-header').fixedHeader();
             $('.help-text').tooltip();
+
+
+
 {#            $('.help-text-p').popover();#}
             //$('[name="D1.9"]').width('300px');
+
+            var lookup = 5;
 
 
             $('[name="D1.9b"]').autocomplete({
                 lookup: ateco,
-{#                lookupLimit: 20#}
+                lookupLimit: lookup,
                 minChars: 1,
                 onSelect: function (suggestion) {
                    var that = this;
@@ -181,8 +190,27 @@
 
                    //$(this).value(suggestion);
                     //this.val('ciao');
+                    console.log(suggestion);
                    $('[name="D1.9b"]').val(suggestion.data);
 
+                   $('[name="D1.9c"]').val(suggestion.value.split('- ')[1]);
+
+                   if(suggestion.data != 'altro') {
+                       $('[name="D1.9c"]').parent().nextAll('.page-header').show();
+                       $('[name="D1.9c"]').parent().nextAll('.form-group').show();
+                       $('#mytable').show();
+                       $('.table-fixed-header').fixedHeader();
+                   } else {
+                       $('[name="D1.9c"]').parent().nextAll('.page-header').hide();
+                       $('[name="D1.9c"]').parent().nextAll('.form-group').hide();
+                       $('#mytable').hide();
+                   }
+                },
+                onSearchComplete: function (query, suggestions) {
+                    suggestions.push({ data: 'altro', value: "altro - Altro" });
+                },
+                beforeRender: function (container) {
+                    container.append('<div class="autocomplete-suggestion" data-index="'+(lookup)+'">Altro</div>');
                 }
             });
 
@@ -283,6 +311,7 @@
 {#                    $('#errors-alert').addClass('hide');#}
                 }
             });
+
         });
     </script>
 {% endblock %}
