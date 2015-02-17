@@ -176,6 +176,7 @@ input[type=number][disabled], input[type=number][readonly], fieldset[disabled]:f
     padding-top: 0.65em;
     padding-bottom: 0.65em;
     padding-left: 2em;
+    background-color: #eee;
 }
 
 .table .testo4 {
@@ -199,6 +200,18 @@ input[type=number][disabled], input[type=number][readonly], fieldset[disabled]:f
 
 .input-sm {
     font-size: 1em;
+}
+
+.table .testo2
+/* .table .label2 */{
+    background-color: #DEDEDE;
+    /*color: #FFFFFF;*/
+}
+
+.table .testo3,
+.table .label3 {
+    background-color: #f0f0f0;
+    /*color: #FFFFFF;*/
 }
 
 .table>td { vertical-align: middle; }

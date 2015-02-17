@@ -1,15 +1,24 @@
 <div class="form-group {% if e.hidden %}hide{% endif %}">
     {% if e.tipo == 'radio' %}
-        <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
-
-        {% for scelta in e.scelte %}
-            <div class="radio">
+{#        <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>#}
+{##}
+{#        {% for scelta in e.scelte %}#}
+{#            <div class="radio">#}
+{#                <label class="radio-inline">#}
+{#                    <input type="radio" name="D{{ e.numero }}" value="{{ scelta }}"> {{ scelta }}#}
+{#                </label>#}
+{#            </div>#}
+{#        {% endfor %}#}
+        <div class="form-group">
+            <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
+            <div>
+                {% for scelta in e.scelte %}
                 <label class="radio-inline">
-                    <input type="radio" name="D{{ e.numero }}" value="{{ scelta }}"> {{ scelta }}
+                    <input type="radio" name="D{{ e.numero }}" value="{{ scelta }}" /> {{ scelta }}
                 </label>
+                {% endfor %}
             </div>
-        {% endfor %}
-
+        </div>
     {% else %}
     <code>{{ e.numero }}</code> <label for="D{{ e.numero }}" class="control-label">{{ e.testo }}</label>
     <input

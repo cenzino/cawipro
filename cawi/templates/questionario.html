@@ -2,18 +2,9 @@
 {% load static %}
 
 {% block content %}
-    <div id="errors-alert" class="form-group hide">
-        <div class="alert alert-danger" role="alert">
-            <h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione! </h3>
-            <p>Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
-            <br/>
-
-        </div>
-    </div>
         <form action="{% url 'salva_questionario' %}" id="questionarioForm" role="form" class="" method="POST">
             {% csrf_token %}
             {% if idc %}
-{#                <input type="hidden" name="idc" value="{{ idc }}">#}
                 <div class="form-group">
                     <label for="idc" class="control-label hide">Identificativo contatto</label>
                     <input type="hidden" name="idc" value="{{ idc }}" required min="0" class="form-control">
@@ -29,18 +20,16 @@
                     <h3 class="page-header text-center">{{ elemento.testo }}</h3>
                 {% elif elemento.classe == 'input' %}
                     {% include "_includes/_input.html" with e=elemento %}
-{#                    {{ forms.input(codice=elemento.numero, label=elemento.testo, nome=elemento.numero, tipo=elemento.tipo, scelte=elemento.scelte, required=elemento.required) }}#}
+
                 {% elif elemento.classe == 'textarea' %}
                     {% include "_includes/_textarea.html" with e=elemento %}
-{#                    {{ forms.textarea(codice=elemento.numero, label=elemento.testo) }}#}
                 {% elif elemento.classe == 'griglia' %}
                     {% include "_includes/_griglia.html" with griglia=elemento.griglia %}
-{#                    {{ forms.griglia(elemento.griglia) }}#}
                 {% endif %}
             {% endfor %}
             <!-- Show the messages in #errors -->
             <div id="errors-list" class="form-group hide">
-                <div class="{# col-xs-9 col-xs-offset-3  #}alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert">
                     <h3><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione! </h3>
                     <p>Sono stati rilevati dei campi <b>non validi</b> nel questionario. La preghiamo di correggere gli <b>errori</b> riportati di seguito. </p>
                     <br/>
@@ -51,25 +40,24 @@
             <input type="submit" value="Invia" class="btn btn-primary">
         </form>
 
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content text-danger">
-                <div class="modal-header text-danger">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h3 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione!</h3>
-                </div>
-                <div class="modal-body bg-danger text-danger">
-                    Sono stati rilevati dei campi <b>non validi</b> nel questionario.
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content text-danger">
+                    <div class="modal-header text-danger">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h3 class="modal-title" id="myModalLabel"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Attenzione!</h3>
+                    </div>
+                    <div class="modal-body bg-danger text-danger">
+                        Sono stati rilevati dei campi <b>non validi</b> nel questionario.
 
-                    <br>La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>.
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">Torna al questionario</button>
+                        <br>La preghiamo di correggere gli <b>errori</b> nei campi evideziati in <b>rosso</b> con il simbolo <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Torna al questionario</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     {% endblock %}
 
 {% block scripts %}
@@ -84,15 +72,37 @@
                 Q.totalCell = $('[name="D1.10"]');
 
                 $( ".grid-cell")
-                        .on('focus', function(){
-                            var jqThis = $(this);
-                            jqThis.data('prev-value', jqThis.val());
-                        }).change( function(){
-                            Q.update($(this));
-                        });
+                    .on('focus', function(){
+                        var jqThis = $(this);
+                        jqThis.data('prev-value', jqThis.val());
+                    }).change( function(){
+                        Q.update($(this));
+                    });
 
                 $('[name="D1.11"]').change( function(){ Q.aggiornaTotaleMacchine(); });
                 $('[name="D1.12"]').change( function(){ Q.aggiornaTotaleMacchine(); });
+
+
+                $('.help-text').tooltip();
+
+
+                /* Fixed Header */
+                $('.table-fixed-header').fixedHeader();
+
+                /* Autocomplete */
+                $('[name="D1.9b"]').autocomplete({
+                    lookup: ateco,
+                    lookupLimit: 8,
+                    minChars: 1,
+                    onSelect: function (suggestion) {
+                        var that = this;
+
+                        $('[name="D1.9b"]').val(suggestion.data);
+
+                        $('[name="D1.9c"]').val(suggestion.value.split('- ')[1]);
+
+                    }
+                });
             },
 
             update: function(cell) {
@@ -128,18 +138,10 @@
             validaField: function(field) {
                 $('#questionarioForm').data('formValidation').updateStatus(field, 'NOT_VALIDATED').validateField(field);
             }
-
-
         };
 
         (function($) {
             FormValidation.Validator.totaleMacchine = {
-                /**
-                 * @param {FormValidation.Base} validator The validator plugin instance
-                 * @param {jQuery} $field The jQuery object represents the field element
-                 * @param {Object} options The validator options
-                 * @returns {Boolean}
-                 */
                 validate: function(validator, $field, options) {
                     var value = parseInt($field.val());
 
@@ -160,30 +162,6 @@
         }(window.jQuery));
 
         $(document).ready(function() {
-            $('.table-fixed-header').fixedHeader();
-            $('.help-text').tooltip();
-
-            //var lookup = 8;
-
-            $('[name="D1.9b"]').autocomplete({
-                lookup: ateco,
-                lookupLimit: 8,
-                minChars: 1,
-                onSelect: function (suggestion) {
-                   var that = this;
-
-                   $('[name="D1.9b"]').val(suggestion.data);
-
-                   $('[name="D1.9c"]').val(suggestion.value.split('- ')[1]);
-
-                },
-                onSearchComplete: function (query, suggestions) {
-                    //suggestions.push({ data: 'altro', value: "altro - Altro" });
-                },
-                beforeRender: function (container) {
-                    //container.append('<div class="autocomplete-suggestion" data-index="'+(lookup)+'">Altro</div>');
-                }
-            });
 
             Q.init();
 
@@ -196,10 +174,8 @@
                     validating: 'glyphicon glyphicon-refresh'
                 },
                 locale: 'it_IT',
-                {#                err: {#}
-                {#                    container: 'popover'#}
-                {#                },#}
-                live: 'disabled',
+                container: 'popover',
+                live: 'submitted',
                 fields: {
                     'D1.10': {
                         validators: {
@@ -219,29 +195,17 @@
             .on('success.form.fv', function(e) {
                 // Reset the message element when the form is valid
                 $('#errors-list').addClass('hide');
-{#                $('#errors-alert').addClass('hide');#}
                 $('#errors').html('');
             })
             .on('err.form.fv', function(e) {
-                // $(e.target) --> The form instance
-                // $(e.target).data('formValidation')
-                //             --> The FormValidation instance
-
-                // Do something ...
                 $('#myModal').modal('show');
             })
             .on('err.field.fv', function(e, data) {
-                // data.fv      --> The FormValidation instance
-                // data.field   --> The field name
-                // data.element --> The field element
-
-                // Get the messages of field
                 var messages = data.fv.getMessages(data.element);
 
                 // Remove the field messages if they're already available
-
                 $('#errors-list').removeClass('hide');
-{# $('#errors-alert').removeClass('hide');#}
+
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
 
                 // Loop over the messages
@@ -260,26 +224,12 @@
                     )
                     .appendTo('#errors');
                 }
-
-{#                $('#errors-alert').removeClass('hide');#}
                 $('#errors-list').removeClass('hide');
-
-                // Hide the default message
-                // $field.data('fv.messages') returns the default element containing the messages
-                /*
-                 data.element
-                 .data('fv.messages')
-                 .find('.help-block[data-fv-for="' + data.field + '"]')
-                 .hide();
-                 */
             })
-
             .on('success.field.fv', function(e, data) {
-                // Remove the field messages
                 $('#errors').find('li[data-field="' + data.field + '"]').remove();
                 if($('#errors li').size()==0) {
                     $('#errors-list').addClass('hide');
-{#                    $('#errors-alert').addClass('hide');#}
                 }
             });
 
