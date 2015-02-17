@@ -17,7 +17,7 @@ def convert_key(k):
     _k = k.split('-')
     _k1 = _k[0].split('.')
     try:
-        if len(_k1[1]) == 1 or (len(_k1[1]) == 2 and _k1[1].endswith('b')):
+        if len(_k1[1]) == 1 or (len(_k1[1]) == 2 and (_k1[1].endswith('b') or _k1[1].endswith('c'))):
             _k1[1] = '0'+_k1[1]
             _k[0] = '.'.join(_k1)
     except:
@@ -48,6 +48,8 @@ def bye(request, idc=None):
     idc = request.GET.get('idc')
     return render(request, 'bye.html', { 'idc': idc })
 
+def ateco(request):
+    return render(request, 'ateco.html')
 
 def salva_questionario(request):
     if request.method == 'POST':
@@ -85,6 +87,7 @@ from xlsxwriter.workbook import Workbook
 from django.utils.encoding import smart_str
 import ast
 import re
+import datetime
 
 def export(request):
     output = io.BytesIO()
@@ -127,6 +130,6 @@ def export(request):
     output.seek(0)
 
     response = HttpResponse(output.read(), content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-    response['Content-Disposition'] = "attachment; filename=test.xlsx"
+    response['Content-Disposition'] = "attachment; filename=export-cawi-%s.xlsx" % datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 
     return response

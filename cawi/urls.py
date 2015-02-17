@@ -9,6 +9,7 @@ urlpatterns = patterns('',
                        url(r'^salva_questionario$', views.salva_questionario, name='salva_questionario'),
                        url(r'^bye$', views.bye, name='bye'),
                        url(r'^export$', views.export, name='export'),
+                       url(r'^ateco$', views.ateco, name='ateco'),
                        )
 
 

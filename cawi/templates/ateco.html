@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div class="well well-lg">
+    <h3 class="text-center">Ricerca codice ATECO 2007</h3>
+    <form>
+        <div class="form-group">
+            <label for="ateco">Codice ATECO 2007</label>
+            <input type="text" id="ateco" class="form-control" placeholder="Digita il testo o codice ateco">
+{#            <p class="help-block">Example block-level help text here.</p>#}
+        </div>
+    </form>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'data/ateco2.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#ateco').autocomplete({
+                lookup: atecox,
+                minChars: 1,
+                maxHeight: 400
+{#                lookupLimit: 30#}
+                /*,
+                onSelect: function (suggestion) {
+                    var that = this;
+
+                    $('[name="D1.9b"]').val(suggestion.data);
+
+                    $('[name="D1.9c"]').val(suggestion.value.split('- ')[1]);
+
+                }*/
+            });
+        });
+    </script>
+{% endblock %}
