@@ -57,6 +57,6 @@ export_csv.short_description = u"Export CSV"
 class QuestionarioAdmin(admin.ModelAdmin):
     #fields = ['id_contatto', 'data_compilazione', 'ip_compilatore', 'risposte']
     list_display = ('id_contatto', 'data_compilazione', 'ip_compilatore')
-    actions = [export_csv, ]
+    #actions = [export_csv, ]
 
 admin.site.register(Questionario, QuestionarioAdmin)
