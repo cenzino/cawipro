@@ -137,6 +137,7 @@ if LIVEHOST:
     ALLOWED_HOSTS = [
         'tiesiweb.webfactional.com',
         'ex.tiesiweb.webfactional.com',
+        'cawi.istitutopiepoli.it'
         ]
 
     DATABASES = {
